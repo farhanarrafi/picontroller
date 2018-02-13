@@ -16,5 +16,12 @@ class RoomUpdateBroadcastReceiver(private var roomDataUpdater: RoomDataUpdater) 
             val status = intent.getBooleanExtra("status",false)
             roomDataUpdater.updateRoomStatus(id, status)
         }
+
+        if (intent!!.action.equals(Constants.COMPONENT_SINGLE_CHILD_ADDED)) {
+            Log.d("RoomUpdateBroadReceiver", "onReceive")
+            val id = intent.getStringExtra("id")
+            val status = intent.getBooleanExtra("status",false)
+            roomDataUpdater.updateRoomStatus(id, status)
+        }
     }
 }

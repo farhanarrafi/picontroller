@@ -2,8 +2,12 @@ package com.farhanarrafi.picontroller
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.Switch
 import com.farhanarrafi.picontroller.model.Components
+import com.farhanarrafi.picontroller.utils.DatabaseUtil
 
 
 class RoomAdapter(private var componentList: ArrayList<Components>) : RecyclerView.Adapter<RoomViewHolder>() {
@@ -11,7 +15,6 @@ class RoomAdapter(private var componentList: ArrayList<Components>) : RecyclerVi
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RoomViewHolder {
 
         val view = LayoutInflater.from(parent!!.context).inflate(R.layout.list_view_item,parent,false)
-
         return RoomViewHolder(view)
     }
 
@@ -30,6 +33,29 @@ class RoomAdapter(private var componentList: ArrayList<Components>) : RecyclerVi
         } else {
             holder.iv_component_image.setImageResource(R.drawable.light_off)
         }
+        holder.sw_component_switch.setOnCheckedChangeListener { buttonView, isChecked ->
+            val firebaseDatabase = DatabaseUtil.getDatabase()
+            val componentsDB = firebaseDatabase.getReference("components")
+            if(isChecked) {
+                componentsDB.child(position.toString()).child("status").setValue(true)
+                holder.iv_component_image.setImageResource(R.drawable.light_on)
+            } else {
+                componentsDB.child(position.toString()).child("status").setValue(false)
+                holder.iv_component_image.setImageResource(R.drawable.light_off)
+            }
+        }
+        /*holder.itemView.setOnClickListener {
+            toggle(holder.itemView)
+        }*/
 
+    }
+
+    private fun toggle(itemView: View) {
+        itemView.findViewById<Switch>(R.id.component_switch).toggle()
+        if(itemView.findViewById<Switch>(R.id.component_switch).isChecked) {
+            itemView.findViewById<ImageView>(R.id.component_image).setImageResource(R.drawable.light_on)
+        } else {
+            itemView.findViewById<ImageView>(R.id.component_image).setImageResource(R.drawable.light_off)
+        }
     }
 }

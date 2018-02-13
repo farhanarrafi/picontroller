@@ -1,6 +1,8 @@
 package com.farhanarrafi.picontroller.model
 
+import com.google.firebase.database.IgnoreExtraProperties
 
+@IgnoreExtraProperties
 class Components
     constructor(var id: String = "",
                 var name: String = "",

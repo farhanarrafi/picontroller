@@ -12,17 +12,6 @@ class RoomViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView){
     val sw_component_switch: Switch = itemView!!.findViewById(R.id.component_switch)
     val sw_component_description: TextView = itemView!!.findViewById(R.id.component_description)
     init {
-        itemView!!.setOnClickListener {
-            toggle()
-        }
-    }
 
-    private fun toggle() {
-        itemView.findViewById<Switch>(R.id.component_switch).toggle()
-        if(itemView.findViewById<Switch>(R.id.component_switch).isChecked) {
-            itemView.findViewById<ImageView>(R.id.component_image).setImageResource(R.drawable.light_on)
-        } else {
-            itemView.findViewById<ImageView>(R.id.component_image).setImageResource(R.drawable.light_off)
-        }
     }
 }
