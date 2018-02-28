@@ -11,7 +11,4 @@ class RoomViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView){
     val tv_component_name: TextView = itemView!!.findViewById(R.id.component_name)
     val sw_component_switch: Switch = itemView!!.findViewById(R.id.component_switch)
     val sw_component_description: TextView = itemView!!.findViewById(R.id.component_description)
-    init {
-
-    }
 }

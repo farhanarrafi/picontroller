@@ -40,8 +40,12 @@ class MainActivity : AppCompatActivity(), RoomDataUpdater {
     override fun onResume() {
         super.onResume()
         initializeFireBase()
-        localBroadcastManager.registerReceiver(roomUpdateBroadcastReceiver,
-                IntentFilter(Constants.COMPONENT_SINGLE_CHILD_UPDATE))
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(Constants.COMPONENT_SINGLE_CHILD_ADDED)
+        intentFilter.addAction(Constants.COMPONENT_SINGLE_CHILD_REMOVED)
+        intentFilter.addAction(Constants.COMPONENT_SINGLE_CHILD_UPDATE)
+        intentFilter.addAction(Constants.COMPONENT_CHILDREN_UPDATED)
+        localBroadcastManager.registerReceiver(roomUpdateBroadcastReceiver, intentFilter)
     }
 
     private fun initializeLayout() {
@@ -60,34 +64,21 @@ class MainActivity : AppCompatActivity(), RoomDataUpdater {
     }
 
     private fun initializeFireBase() {
-        componentsDB.addListenerForSingleValueEvent( object: ValueEventListener {
-            override fun onCancelled(databaseError: DatabaseError?) {
-                Log.e("FireBase Error: ", databaseError.toString())
-            }
-
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                dataSnapshot.children.mapTo(componentList) { it.getValue(Components::class.java)!! }
-                recyclerView.adapter = RoomAdapter(componentList)
-                recyclerView.adapter.notifyDataSetChanged()
-            }
-        })
-
         componentsDB.addChildEventListener(object : ChildEventListener {
             override fun onCancelled(databaseError: DatabaseError?) {
-                Log.d("onCancelled", databaseError.toString())
+                //Log.d("onCancelled", databaseError.toString())
             }
 
             override fun onChildMoved(dataSnapshot: DataSnapshot?, previousChildName: String?) {
                 val component = dataSnapshot!!.getValue(Components::class.java)
-                Log.d("onChildMoved", component.toString())
+                //Log.d("onChildMoved", component.toString())
             }
 
             override fun onChildChanged(dataSnapshot: DataSnapshot?, previousChildName: String?) {
-                val component: Components?
                 try {
-                    component = dataSnapshot!!.getValue(Components::class.java)
-                    Log.d("onChildChanged",component!!.id + " " + component!!.status.toString())
-                    sendComponentUpdate(Constants.COMPONENT_SINGLE_CHILD_UPDATE, component)
+                    val component = dataSnapshot!!.getValue(Components::class.java)
+                    //Log.d("onChildChanged",component!!.id + " " + component!!.status.toString())
+                    sendComponentUpdate(Constants.COMPONENT_SINGLE_CHILD_UPDATE, component!!)
                 } catch (ex:Exception) {
                     ex.printStackTrace()
                 }
@@ -95,35 +86,46 @@ class MainActivity : AppCompatActivity(), RoomDataUpdater {
 
             override fun onChildAdded(dataSnapshot: DataSnapshot?, previousChildName: String?) {
                 val component = dataSnapshot!!.getValue(Components::class.java)
-                Log.d("onChildAdded", component.toString())
+                //Log.d("onChildAdded", component!!.id)
+                sendComponentUpdate(Constants.COMPONENT_SINGLE_CHILD_ADDED, component!!)
             }
 
             override fun onChildRemoved(dataSnapshot: DataSnapshot?) {
                 val component = dataSnapshot!!.getValue(Components::class.java)
-                Log.d("onChildRemoved", component.toString())
+                //Log.d("onChildRemoved", component!!.id)
                 sendComponentUpdate(Constants.COMPONENT_SINGLE_CHILD_REMOVED, component!!)
             }
         })
 
     }
 
-    override fun updateRoomStatus(id: String, status: Boolean) {
-        for (component in componentList) {
-            if(component.id == id) {
-                component.status = status
-                Log.d("updateRoomStatus", component.name)
+    override fun updateComponentStatus(component: Components) {
+        for (item in componentList) {
+            if(item.id == component.id) {
+                item.status = component.status
+                Log.d("updateComponentStatus", component.name + component.status)
                 break
             }
         }
         recyclerView.adapter = RoomAdapter(componentList)
         recyclerView.adapter.notifyDataSetChanged()
-        Log.d("notifyDataSetChanged", "Called")
+    }
+
+    override fun addComponent(component: Components) {
+        componentList.add(component)
+        recyclerView.adapter = RoomAdapter(componentList)
+        recyclerView.adapter.notifyDataSetChanged()
+    }
+
+    override fun removeComponent(component: Components) {
+        componentList.remove(component)
+        recyclerView.adapter = RoomAdapter(componentList)
+        recyclerView.adapter.notifyDataSetChanged()
     }
 
     private fun sendComponentUpdate(intentString: String, component: Components) {
         val intent = Intent(intentString)
-        intent.putExtra("id",component.id)
-        intent.putExtra("status", component.status)
+        intent.putExtra("component", component)
         localBroadcastManager.sendBroadcast(intent)
     }
 

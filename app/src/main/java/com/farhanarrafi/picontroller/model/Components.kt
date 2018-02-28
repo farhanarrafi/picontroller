@@ -1,6 +1,8 @@
 package com.farhanarrafi.picontroller.model
 
 import com.google.firebase.database.IgnoreExtraProperties
+import java.io.Serializable
+
 
 @IgnoreExtraProperties
 class Components
@@ -8,4 +10,4 @@ class Components
                 var name: String = "",
                 var description: String = "",
                 var status: Boolean = true,
-                var type: String = "")
+                var type: String = "") : Serializable

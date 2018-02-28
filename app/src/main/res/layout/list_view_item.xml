@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/view_list_item"
     android:layout_width="wrap_content"
-    android:layout_height="100dp"
+    android:layout_height="80dp"
     android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/component_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginRight="5dp"
         tools:src="@drawable/light_on"/>
 
@@ -17,36 +17,35 @@
         android:id="@+id/component_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
         android:gravity="left"
         android:layout_toRightOf="@+id/component_image"
+        android:layout_toLeftOf="@+id/component_switch"
         android:labelFor="@+id/component_switch"
         android:textSize="22sp"
         android:text="Light" />
-
-    <TextView
-        android:id="@+id/component_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:layout_below="@+id/component_name"
-        android:layout_toRightOf="@+id/component_image"
-        android:layout_toLeftOf="@+id/component_switch"
-        android:layout_alignParentBottom="true"
-        android:labelFor="@+id/component_switch"
-        android:textSize="20sp"
-        tools:text="@tools:sample/lorem/random" />
     <Switch
         android:id="@+id/component_switch"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:layout_below="@id/component_name"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         tools:checked="true"
         android:textSize="20sp" />
+    <TextView
+        android:id="@+id/component_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_below="@+id/component_name"
+        android:layout_toRightOf="@+id/component_image"
+        android:layout_alignParentBottom="true"
+        android:textSize="20sp"
+        android:isScrollContainer="true"
+        tools:text="@tools:sample/lorem/random" />
+
 </RelativeLayout>
