@@ -5,7 +5,7 @@ import java.io.Serializable
 
 
 @IgnoreExtraProperties
-class Components
+class Component
     constructor(var id: String = "",
                 var name: String = "",
                 var description: String = "",
