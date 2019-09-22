@@ -7,7 +7,7 @@ import com.farhanarrafi.picontroller.model.Components
 import com.farhanarrafi.picontroller.utils.DatabaseUtil
 
 
-class RoomAdapter(private var componentList: ArrayList<Components>) : RecyclerView.Adapter<RoomViewHolder>() {
+class RoomAdapter(private var componentList: ArrayList<Components>, var listener: SwitchUpdateListener) : RecyclerView.Adapter<RoomViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RoomViewHolder {
 
@@ -31,15 +31,8 @@ class RoomAdapter(private var componentList: ArrayList<Components>) : RecyclerVi
             holder.iv_component_image.setImageResource(R.drawable.light_off)
         }
         holder.sw_component_switch.setOnCheckedChangeListener { buttonView, isChecked ->
-            val firebaseDatabase = DatabaseUtil.getDatabase()
-            val componentsDB = firebaseDatabase.getReference("components")
-            if(isChecked) {
-                componentsDB.child(position.toString()).child("status").setValue(true)
-                //holder.iv_component_image.setImageResource(R.drawable.light_on)
-            } else {
-                componentsDB.child(position.toString()).child("status").setValue(false)
-                //holder.iv_component_image.setImageResource(R.drawable.light_off)
-            }
+            listener.updateLightStatus(position,isChecked)
+
         }
     }
 }
