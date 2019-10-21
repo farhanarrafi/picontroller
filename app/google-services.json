@@ -8,28 +8,28 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:201035736094:android:071016511d55181b",
+        "mobilesdk_app_id": "",
         "android_client_info": {
           "package_name": "com.farhanarrafi.picontroller"
         }
       },
       "oauth_client": [
         {
-          "client_id": "201035736094-93m2622op47suv3iu2qqchdld5sbijo9.apps.googleusercontent.com",
+          "client_id": "",
           "client_type": 1,
           "android_info": {
             "package_name": "com.farhanarrafi.picontroller",
-            "certificate_hash": "042b6fdfdadfdc18f21cb0efbe184d59d0d707b5"
+            "certificate_hash": ""
           }
         },
         {
-          "client_id": "201035736094-ojic24hftb7t92kd2sh8lfsfl108ftkl.apps.googleusercontent.com",
+          "client_id": ",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB2o-jNEzMYgqGBsnmiyM5K4G4dXffmikQ"
+          "current_key": ""
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "201035736094-ojic24hftb7t92kd2sh8lfsfl108ftkl.apps.googleusercontent.com",
+              "client_id": "",
               "client_type": 3
             }
           ]

@@ -8,6 +8,9 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import com.farhanarrafi.picontroller.model.Components
 import com.farhanarrafi.picontroller.utils.DatabaseUtil
 import com.google.firebase.database.*
@@ -48,6 +51,26 @@ class MainActivity : AppCompatActivity(), RoomDataUpdater, SwitchUpdateListener 
         initializeFireBase()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater:MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            R.id.action_add -> {
+                addAppliance()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun addAppliance() {
+        val intent = Intent(this, AddApplianceActivity::class.java)
+        startActivity(intent)
+    }
 
     override fun onStart() {
         super.onStart()
